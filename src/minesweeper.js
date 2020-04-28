@@ -318,3 +318,13 @@ module.exports.MineSweeper = MineSweeper;
 module.exports.CellState = CellState;
 module.exports.MINE = MINE;
 module.exports.FLAG = FLAG;
+
+// remove later
+let myBoard = new MineSweeper(3,3,1);
+myBoard.debugLog();
+
+// "test" for flagging
+console.log("flag: " + JSON.stringify(myBoard.flag( 0, 0)));
+console.log("flag should fail : " + JSON.stringify(myBoard.flag( 1, 0)));  //should fail
+console.log("unflag: " + JSON.stringify(myBoard.flag( 0, 0)));
+console.log("flag: " + JSON.stringify(myBoard.flag( 1, 0)));  //should succeed

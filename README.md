@@ -7,6 +7,10 @@ When the user flags or presses a cell , the games internal state is updated and 
 Illegal actions, such as pressing a flagged cell or pressing out of bounds, have no effect but should not return an error/ raise an exception.
 The display must check if the game is completed between steps.
 
+I added unit tests for the minesweeper classs using mocha.
+to run them:
+1. npm intsall mocha (if needed)
+2. in the project folder, run "npm test"
 I tested my code using the debugger and some log prints (given time, I will convert these into unit tests).
 
 Second, I started working on the React display.
