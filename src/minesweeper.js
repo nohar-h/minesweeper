@@ -295,7 +295,7 @@ class MineSweeper {
 
     /*
     change all cell states to "pressed"
-    returns all the cell states and values, so they can be displayed ( or whatever)
+    returns all the cell states and values, so their values can be displayed ( or whatever)
      */
     superman() {
         let res = [];
@@ -305,13 +305,12 @@ class MineSweeper {
                 res.push(this.getCell(i, j));
             }
         }
-        // this will "terminate" the game
+        // this will "complete" the game (successfully)
         this.progress.flagsLeft = 0;
         this.progress.correctFlagged = this.total;
 
         return res;
     }
-
 }
 
 module.exports.MineSweeper = MineSweeper;

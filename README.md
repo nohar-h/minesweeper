@@ -7,11 +7,10 @@ When the user flags or presses a cell , the games internal state is updated and 
 Illegal actions, such as pressing a flagged cell or pressing out of bounds, have no effect but should not return an error/ raise an exception.
 The display must check if the game is completed between steps.
 
-I added unit tests for the minesweeper classs using mocha.
+I added basic unit tests for the minesweeper classs using mocha.
 to run them:
-1. npm intsall mocha (if needed)
+1. npm install mocha (if needed)
 2. in the project folder, run "npm test"
-I tested my code using the debugger and some log prints (given time, I will convert these into unit tests).
 
 Second, I started working on the React display.
 Being new to React, I started out with their basic tic-tac-toe tutorial (https://reactjs.org/tutorial/tutorial.html), and then implemented the minesweeper game over the basic "game board" from the example.
@@ -30,4 +29,4 @@ My initial plan was "mirror" the MineSweeper class implementation by maintaining
 The display is kept simple - using background color to tell apart pressed and unplressed cells, and unicode charahcters for the cell contents (including a flag and a mine).
 
 
-I tested the game on Google Chrome (Version 81.0.4044.113 and 81.0.4044.122) and Firefox (75.0 ).
+I tested the React game itself manually on Google Chrome (Version 81.0.4044.113 and 81.0.4044.122) and Firefox (75.0 ).
