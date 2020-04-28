@@ -328,3 +328,55 @@ console.log("flag: " + JSON.stringify(myBoard.flag( 0, 0)));
 console.log("flag should fail : " + JSON.stringify(myBoard.flag( 1, 0)));  //should fail
 console.log("unflag: " + JSON.stringify(myBoard.flag( 0, 0)));
 console.log("flag: " + JSON.stringify(myBoard.flag( 1, 0)));  //should succeed
+
+
+// //test - is done
+myBoard = new MineSweeper(3,3,1);
+myBoard.mines = {};
+myBoard.mines[[0, 0]] = 1;
+//myBoard.debugLog();
+
+//not done
+console.log("done? " + JSON.stringify(myBoard.isCompleted())); //should be false, false
+
+//success
+myBoard.flag( 0, 0);
+console.log("done? " + JSON.stringify(myBoard.isCompleted())); //should be true, true
+
+//fail
+myBoard = new MineSweeper(3,3,1);
+myBoard.debugLog();
+myBoard.mines = {};
+myBoard.mines[[0, 0]] = 1;
+//myBoard.debugLog();
+myBoard.press(0, 0);
+console.log("done? " + JSON.stringify(myBoard.isCompleted())); //should be true, false
+//
+// // press a "0"
+// myBoard = new MineSweeper(3,3,1);
+// myBoard.debugLog();
+// myBoard.mines = {};
+// myBoard.mines[[0, 0]] = 1;
+//
+// myBoard.debugLogUser();
+//
+// let pressed = myBoard.press(2, 2);
+// console.log("pressed: " + JSON.stringify(pressed));
+//
+// myBoard.debugLogUser();
+//
+// myBoard.flag(0, 0);
+//
+// myBoard.debugLogUser();
+
+myBoard = new MineSweeper(2, 3, 1);
+myBoard.debugLogUser();
+let changed = myBoard.superman();
+myBoard.debugLogUser();
+
+// clicks out of bound should be ignored
+myBoard = new MineSweeper(2, 3, 1);
+myBoard.flag(100, 100); //should be ignored
+myBoard.flag(-1, -1); //should be ignored
+myBoard.press(100, 100); //should be ignored
+myBoard.press(-1, -1); //should be ignored
