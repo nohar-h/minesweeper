@@ -255,6 +255,16 @@ class MineSweeper {
     return values and click status of changed cells
      */
     press(i, j) {
+        let alreadyChecked = {};
+        return this._internalPress(i, j, alreadyChecked);
+    }
+
+    /*
+    helper for press (prevent optimize code by not repeating cell presses in recursion
+    (so we don't reach max recursion on large boards)
+    code can be improved, I noticed this bug during final tests
+     */
+    _internalPress(i, j, cellsChecked) {
         // if we are done, ignore
         if (this.isCompleted().done)  {
             console.log("Game already done, ignoring press: " + [i, j]);
@@ -278,18 +288,22 @@ class MineSweeper {
                 //console.log("pressing: " + cell);
 
                 this.progress.clicked[cell] = CellState.PRESSED;
+                cellsChecked[cell] = true;
                 let res = [this.getCell(i, j)];
                 let val = this.getVal(i, j);
                 if (val === MINE) {
                     console.log("Kaboom!");
                     this.progress.exploded = true;
                 } else if (val === 0) { // cells adjacent are also pressed
-                    //get surrounding cells that are within bounds
+                    //get surrounding cells that are within bounds and have not been updated yet
                     let around = this.getSurrounding(i, j)
-                        .filter(v => { return (v[0] >= 0 && v[0] < this.height && v[1] >= 0 && v[1] < this.width); });
+                        .filter(v => { return (v[0] >= 0 && v[0] < this.height &&
+                            v[1] >= 0 && v[1] < this.width &&
+                            cellsChecked[v] === undefined)});
+
                     // and press them as well
                     around.forEach(c => {
-                        res = res.concat( this.press(c[0], c[1]));
+                        res = res.concat( this._internalPress(c[0], c[1], cellsChecked));
                     });
                 }
 
@@ -321,4 +335,5 @@ module.exports.MineSweeper = MineSweeper;
 module.exports.CellState = CellState;
 module.exports.MINE = MINE;
 module.exports.FLAG = FLAG;
+
 

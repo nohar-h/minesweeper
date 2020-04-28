@@ -27,8 +27,14 @@ The package contains three components:
 3. cells in the board
 
 My initial plan was "mirror" the MineSweeper class implementation by maintaining a map of changed cells and refreshing  only them, but in order to simplify the react code I opted of create a "matrix" of display values instead. After a user action, the contents of changed cells are updated.
-The display is kept simple - using background color to tell apart pressed and unpressed cells, and unicode characters for the cell contents (including a flag and a mine).
+The display is kept simple - using background color to tell apart pressed and unplressed cells, and unicode charahcters for the cell contents (including a flag and a mine).
+When the board is larger than the viewport scroll bars appear. I opted to keep the cells quite large and fixed in size, just because I find it more convenient.
 I did not invest time in styling the form portion of the game.
-I did noticed that rendering large boards is a bit slow, but did not get around to imroving performance.
+I found a couple of bugs with large boards quite late in the game (as always), and did not get around to fixed them unfortunately:
+1. rendering is a bit slow, did not get around to optimizing this
+2. sometimes very wide boards were rendered incorrectly (hard to reproduce, my guess it's a CSS thing).
+3. on very large boards pressing an empty cell occasionally causes a recursion error. I would fix this by replacing the recursion with iteration (BFS style - keep stepping away from the starting point until you reach the board bounds or a positive). Juist didn't have time too fully test tbefore the deadline :(
+
+
 
 I tested the React game itself manually on Google Chrome (Version 81.0.4044.113 and 81.0.4044.122) and Firefox (75.0 ).
