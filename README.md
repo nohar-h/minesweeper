@@ -1,6 +1,9 @@
 # minesweeper
 a minesweeper game in js/React
 
+plnkr: https://plnkr.co/plunk/CvodCiRSTyyjky3G
+(the plnkr is very slow, it's my first time using it - do not know if it's normal)
+
 First, I implemented the minesweeper class. The implementation is decoupled from the display, making the code much easier to test and maintain.
 An instance the this class represents an active game.
 When the user flags or presses a cell , the games internal state is updated and the new state of affected cells is returned (so we can update the display efficiently).
