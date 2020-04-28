@@ -6,6 +6,7 @@ An instance the this class represents an active game.
 When the user flags or presses a cell , the games internal state is updated and the new state of affected cells is returned (so we can update the display efficiently).
 Illegal actions, such as pressing a flagged cell or pressing out of bounds, have no effect but should not return an error/ raise an exception.
 The display must check if the game is completed between steps.
+Some work can be done to clean up the class, such as adding getters.
 
 I added basic unit tests for the minesweeper classs using mocha.
 to run them:
@@ -27,6 +28,7 @@ The package contains three components:
 
 My initial plan was "mirror" the MineSweeper class implementation by maintaining a map of changed cells and refreshing  only them, but in order to simplify the react code I opted of create a "matrix" of display values instead. After a user action, the contents of changed cells are updated.
 The display is kept simple - using background color to tell apart pressed and unplressed cells, and unicode charahcters for the cell contents (including a flag and a mine).
+I did not invest time in styling the form portion of the game.
 
 
 I tested the React game itself manually on Google Chrome (Version 81.0.4044.113 and 81.0.4044.122) and Firefox (75.0 ).

@@ -25,7 +25,7 @@ it('flagging returns correct changes', () => {
     let myBoard = new MineSweeper(3,3,1);
 
     let flags = myBoard.flag(0, 0);
-    console.log(flags);
+
     //flagged first time
     compareCells(flags, [{"pos":[0,0],"value":1,"state":1}]);
     // can't flag - no flags left
@@ -38,6 +38,23 @@ it('flagging returns correct changes', () => {
     // // now we can flag someplace else
     flags = myBoard.flag(1, 0);
     compareCells(flags, [{"pos":[1,0],"value":1,"state":1}]);
+});
+
+it('fcan flag', () => {
+    let myBoard = new MineSweeper(3,3,1);
+
+    //nothjing flagged yet
+    assert.equal(myBoard.canFlag(), true);
+
+    //no flags left
+    myBoard.flag(0, 0);
+    assert.equal(myBoard.canFlag(), false);
+
+    //flag freed up
+    myBoard.flag(0, 0);
+    assert.equal(myBoard.canFlag(), true);
+
+
 });
 
 it('is completed - not done', () => {

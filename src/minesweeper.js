@@ -16,23 +16,25 @@ const MINE = '💣'; // hoping this unicode doesn't kill me
 const FLAG = "🚩";  // hoping this unicode doesn't kill me
 
 /*
-This class represents a game game
+This class represents a MineSweeper game
 It is constructed with board dimensions and number of mines
-User actions (flagging and pressing) are tracked board state are then tracked.
+User actions (flagging and pressing) are tracked as the game progresses.
 Instead of maintaining a matrix with the status of each cell, we use maps (objects).
 This alleviates the need for some annoying boundary checks, and possibly improves performance.
 When the user performs an action, affected cell values are returned (for easy display update)
+Two flags - track available flags and correct flags as part of the progress
+The game ends when we flag all mines correctly or press a mine
  */
 class MineSweeper {
     constructor (height, wid, nMines) {
-        // todo - validations can can be done in the html
+        // these validation should be done in the display, but let's not trust it
         if (wid > 300 || height > 300) {
             alert("Board size is up to 300 * 300!");
-            return; //todo
+            return;
         }
         if (nMines > wid * height) {
             alert("Too many mines!");
-            return; //todo...
+            return;
         }
 
         //select mine positions
@@ -78,8 +80,8 @@ class MineSweeper {
         };
     }
     /*
- check if there is a mine in this position
- */
+    check if there is a mine in this position
+    */
     isMine(i, j) {
         // console.log("isMine: [" + i + ', ' + j + ']');
         return this.mines[[i, j]] === 1;
@@ -94,7 +96,7 @@ class MineSweeper {
     }
 
     /*
-    get the value for an index - return '*' for a mine or the number of surrounding mines
+    get the value for an index - return '💣' for a mine or the number of surrounding mines
     */
     getVal( i, j) {
         // console.log("getVal: [" + i + ', ' + j + ']');
@@ -110,6 +112,7 @@ class MineSweeper {
     get the state for an index - PRESSED, FLAGGED or FREE
      */
     getState( i, j) {
+        // if the cell was bot touched yet, it's not in the map
         return this.progress.clicked[[i, j]] || CellState.FREE;
     }
 
@@ -170,6 +173,7 @@ class MineSweeper {
 
     /*
    check if the game is done
+   (Either we flagged all mines correctly or pressed a mine)
     */
     isCompleted() {
         let res = { done: false, success: false};
@@ -247,7 +251,7 @@ class MineSweeper {
     /*
     press a cell
     ignored for flagged and pressed cells
-    affects surrounding cells if the value is 0
+    affects surrounding cells if the value is 0 (by pressing them as well)
     return values and click status of changed cells
      */
     press(i, j) {
@@ -256,7 +260,7 @@ class MineSweeper {
             console.log("Game already done, ignoring press: " + [i, j]);
             return [];
         }
-        // thjough pressing out of bounds won't cause an error, ther'e no need for it
+        // though pressing out of bounds won't cause an error, there's no need for it
         else if ( i < 0 || i >= this.height || j < 0 || j >= this.width) {
             console.log("cell out of bounds, ignoring press: " + [i, j]);
             return [];
