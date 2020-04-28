@@ -27,8 +27,8 @@ The package contains three components:
 3. cells in the board
 
 My initial plan was "mirror" the MineSweeper class implementation by maintaining a map of changed cells and refreshing  only them, but in order to simplify the react code I opted of create a "matrix" of display values instead. After a user action, the contents of changed cells are updated.
-The display is kept simple - using background color to tell apart pressed and unplressed cells, and unicode charahcters for the cell contents (including a flag and a mine).
+The display is kept simple - using background color to tell apart pressed and unpressed cells, and unicode characters for the cell contents (including a flag and a mine).
 I did not invest time in styling the form portion of the game.
-
+I did noticed that rendering large boards is a bit slow, but did not get around to imroving performance.
 
 I tested the React game itself manually on Google Chrome (Version 81.0.4044.113 and 81.0.4044.122) and Firefox (75.0 ).
