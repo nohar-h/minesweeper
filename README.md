@@ -2,7 +2,7 @@
 a minesweeper game in js/React
 
 plnkr: https://plnkr.co/plunk/CvodCiRSTyyjky3G
-(the plnkr is very slow, it's my first time using it - do not know if it's normal)
+(the plnkr take some time to load, it's my first one - do not know if it's my fault)
 
 First, I implemented the minesweeper class. The implementation is decoupled from the display, making the code much easier to test and maintain.
 An instance the this class represents an active game.
