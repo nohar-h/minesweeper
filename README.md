@@ -26,4 +26,4 @@ My initial plan was "mirror" the MineSweeper class implementation by maintaining
 The display is kept simple - using background color to tell apart pressed and unplressed cells, and unicode charahcters for the cell contents (including a flag and a mine).
 
 
-I tested the game on Google Chrome (Version 81.0.4044.113) and Firefox (75.0 ).
+I tested the game on Google Chrome (Version 81.0.4044.113 and 81.0.4044.122) and Firefox (75.0 ).
