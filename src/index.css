@@ -52,6 +52,6 @@ ol, ul {
     padding: 20px;
 }
 
-/*.game-board {*/
-    /*overflow-x:auto;*/
-/*}*/
+.game-board {
+   width: 500%; /* see https://www.modus-made.com/ideas/css-tricks-expanding-beyond-a-parent-div/*/
+}

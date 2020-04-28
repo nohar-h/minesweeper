@@ -65,7 +65,7 @@ class MineSweeper {
         //console.log(mines);
 
         // for now, all is "public"
-        // todo - getters/ setters?
+        // todo - getter/ setter and encapsulation
         this.width = wid; //width of the board
         this.height = height; //height of the board
         this.total = nMines;  //number of mines
@@ -173,8 +173,9 @@ class MineSweeper {
     */
     isCompleted() {
         let res = { done: false, success: false};
-        //console.log("total " + this.total + " correct: " + this.progress.correctFlagged + " success? " + (this.total === this.progress.correctFlagged));
-        if (this.total === this.progress.correctFlagged) {
+        // for some reason this failed in chrome on one computer with '==='. Just changed it and moved on.
+        console.log("total " + this.total + " correct: " + this.progress.correctFlagged + " success? " + (this.total == this.progress.correctFlagged));
+        if (this.total == this.progress.correctFlagged) {
             //console.log("Hurray");
             res.done = true;
             res.success = true;
