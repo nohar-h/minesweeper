@@ -178,7 +178,7 @@ class MineSweeper {
     isCompleted() {
         let res = { done: false, success: false};
         // for some reason this failed in chrome on one computer with '==='. Just changed it and moved on.
-        console.log("total " + this.total + " correct: " + this.progress.correctFlagged + " success? " + (this.total == this.progress.correctFlagged));
+        //console.log("total " + this.total + " correct: " + this.progress.correctFlagged + " success? " + (this.total == this.progress.correctFlagged));
         if (this.total == this.progress.correctFlagged) {
             //console.log("Hurray");
             res.done = true;
@@ -255,60 +255,73 @@ class MineSweeper {
     return values and click status of changed cells
      */
     press(i, j) {
-        let alreadyChecked = {};
-        return this._internalPress(i, j, alreadyChecked);
-    }
 
-    /*
-    helper for press (prevent optimize code by not repeating cell presses in recursion
-    (so we don't reach max recursion on large boards)
-    code can be improved, I noticed this bug during final tests
-     */
-    _internalPress(i, j, cellsChecked) {
-        // if we are done, ignore
-        if (this.isCompleted().done)  {
-            console.log("Game already done, ignoring press: " + [i, j]);
-            return [];
-        }
-        // though pressing out of bounds won't cause an error, there's no need for it
-        else if ( i < 0 || i >= this.height || j < 0 || j >= this.width) {
-            console.log("cell out of bounds, ignoring press: " + [i, j]);
-            return [];
-        }
-
-        let cell = [i, j];
-        let state = this.progress.clicked[cell];
-        switch (state) {
-            case CellState.PRESSED:
-            case CellState.FLAGGED:
-                //console.log("can't press flagged or pressed cells " + cell);
-                return []; // nothing has changed ...
-            case CellState.FREE:
-            default:  // undefined is also free..
-                //console.log("pressing: " + cell);
-
-                this.progress.clicked[cell] = CellState.PRESSED;
-                cellsChecked[cell] = true;
-                let res = [this.getCell(i, j)];
-                let val = this.getVal(i, j);
-                if (val === MINE) {
-                    console.log("Kaboom!");
-                    this.progress.exploded = true;
-                } else if (val === 0) { // cells adjacent are also pressed
-                    //get surrounding cells that are within bounds and have not been updated yet
-                    let around = this.getSurrounding(i, j)
-                        .filter(v => { return (v[0] >= 0 && v[0] < this.height &&
-                            v[1] >= 0 && v[1] < this.width &&
-                            cellsChecked[v] === undefined)});
-
-                    // and press them as well
-                    around.forEach(c => {
-                        res = res.concat( this._internalPress(c[0], c[1], cellsChecked));
-                    });
-                }
-
+        /*
+        helper - press a cell and return changes and a list of additional cells to press
+         */
+        const pressOneCell =  function(board, x, y) {
+            let res = {
+                changed: [], //positions and states of affected cells
+                surround: [], // nearby cells to press
+            };
+            // if we are done, ignore
+            if (board.isCompleted().done)  {
+                console.log("Game already done, ignoring press: " + [x, y]);
                 return res;
-        }
+            }
+            // though pressing out of bounds won't cause an error, there's no need for it
+            else if ( x < 0 || x >= board.height || y < 0 || y >= board.width) {
+                console.log("cell out of bounds, ignoring press: " + [x, y]);
+                return res;
+            }
+
+            let cell = [x, y];
+            let state = board.progress.clicked[cell];
+            switch (state) {
+                case CellState.PRESSED:
+                case CellState.FLAGGED:
+                    //console.log("can't press flagged or pressed cells " + cell);
+                    return res; // nothing has changed ...
+                case CellState.FREE:
+                default:  // undefined is also free..
+                    //console.log("pressing: " + cell);
+
+                    board.progress.clicked[cell] = CellState.PRESSED;
+                    res.changed = res.changed.concat([board.getCell(x, y)]);
+
+                    let val = board.getVal(x, y);
+                    if (val === MINE) {
+                        console.log("Kaboom!");
+                        board.progress.exploded = true;
+                    } else if (val === 0) { // cells adjacent are also pressed
+                        //get surrounding cells that are within bounds and have not been updated yet
+                        res.surround = board.getSurrounding(x, y)
+                            .filter(v => {
+                                return (v[0] >= 0 && v[0] < board.height &&
+                                v[1] >= 0 && v[1] < board.width)
+                            });
+                    }
+
+                    return res;
+            }
+        };
+
+        let newStates = [];
+        let alreadyChecked = {};
+        let cellsToCheck = [[i,j]];
+        do {
+            let newCell = cellsToCheck.pop();
+            alreadyChecked[newCell] = true; // so we won't press it again
+
+            let press = pressOneCell(this, newCell[0], newCell[1]);
+            newStates = newStates.concat(press.changed); // add states of affected cells to results
+
+            cellsToCheck = cellsToCheck.concat(press.surround.filter(c => !alreadyChecked[c])); // don't check a cell twice;
+
+        } while(cellsToCheck.length > 0);
+
+        return newStates;
+
     }
 
     /*
@@ -335,5 +348,9 @@ module.exports.MineSweeper = MineSweeper;
 module.exports.CellState = CellState;
 module.exports.MINE = MINE;
 module.exports.FLAG = FLAG;
+
+
+
+
 
 

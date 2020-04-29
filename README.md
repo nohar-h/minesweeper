@@ -34,9 +34,9 @@ The display is kept simple - using background color to tell apart pressed and un
 When the board is larger than the viewport scroll bars appear. I opted to keep the cells quite large and fixed in size, just because I find it more convenient.
 I did not invest time in styling the form portion of the game.
 I found a couple of bugs with large boards quite late in the game (as always), and did not get around to fixed them unfortunately:
-1. rendering is a bit slow, did not get around to optimizing this
+1. rendering is a bit slow, especially for large baords. did not get around to optimizing this
 2. sometimes very wide boards were rendered incorrectly (hard to reproduce, my guess it's a CSS thing).
-3. on very large boards pressing an empty cell occasionally causes a recursion error. I would fix this by replacing the recursion with iteration (BFS style - keep stepping away from the starting point until you reach the board bounds or a positive). Juist didn't have time too fully test tbefore the deadline :(
+3. [FIXED ON 29/4 SINCE IT ANNOYED ME. STILL SLOW, THOUGH] on very large boards, empty pressing an empty cell can cause a recursion error.
 
 
 

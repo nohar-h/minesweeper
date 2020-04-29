@@ -7,8 +7,8 @@ function compareCells(actual, expected, doValue=false) {
     assert.equal(expected.length, actual.length);
 
     //sort the array as a precaution
-    actual = actual.sort((a, b) => { return a.pos[0] === b.pos[0]? a.pos[1] - a.pos[1]: a.pos[0] - b.pos[0];});
-    expected = expected.sort((a, b) => { return a.pos[0] === b.pos[0]? a.pos[1] - a.pos[1]: a.pos[0] - b.pos[0];});
+    actual = actual.sort((a, b) => { return a.pos[0] - b.pos[0];}).sort((a, b) => { return a.pos[1] - b.pos[1];});
+    expected = expected.sort((a, b) => { return a.pos[0] - b.pos[0];}).sort((a, b) => { return a.pos[1] - b.pos[1];});
 
     for (let i in actual) {
         assert.equal(actual[i].pos[0], expected[i].pos[0]);
@@ -40,7 +40,7 @@ it('flagging returns correct changes', () => {
     compareCells(flags, [{"pos":[1,0],"value":1,"state":1}]);
 });
 
-it('fcan flag', () => {
+it('can flag', () => {
     let myBoard = new MineSweeper(3,3,1);
 
     //nothjing flagged yet
@@ -132,25 +132,6 @@ it('superman', () => {
     //in this case we also test the value of each cell
     compareCells(pressed, expected, true);
 
-});
-
-it('superman', () => {
-    myBoard = new MineSweeper(2, 3, 1);
-    myBoard.mines = {};
-    myBoard.mines[[0, 0]] = 1;
-    let pressed = myBoard.superman();
-
-    const expected = [
-        {"pos":[0,0],"value":"💣","state":2},
-        {"pos":[0,1],"value":1,"state":2},
-        {"pos":[0,2],"value":0,"state":2},
-        {"pos":[1,0],"value":1,"state":2},
-        {"pos":[1,1],"value":1,"state":2},
-        {"pos":[1,2],"value":0,"state":2}
-        ];
-    //in this case we also test the value of each cell
-    compareCells(pressed, expected, true);
-
     // the game is done now
     let done = myBoard.isCompleted();
     assert.equal(done.done, true);
@@ -169,6 +150,17 @@ it('ignore clicks and presses out of bounds', () => {
     compareCells(myBoard.press(-1, 0), []);
     compareCells(myBoard.press(0, -1), []);
 });
+
+// it('pressing large, empty board doesn\'t crash', () => {
+//     let myBoard = new MineSweeper(300,300,1);
+//     myBoard.mines = {};
+//     myBoard.mines[[0, 0]] = 1;
+//     //this takes FOREVER
+//     //mostly I wanted to see this didn't reach an recursion limit
+//     let pressed = myBoard.press(299, 299);
+//
+//     assert.equal(pressed.length, 89999);
+// });
 
 
 
